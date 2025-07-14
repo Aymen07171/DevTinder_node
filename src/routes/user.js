@@ -3,6 +3,7 @@ const userRouter = express.Router();
 const ConnectionRequest = require('../models/connectionRequest');
 const { userAuth } = require('../middleware/auth');
 const User = require('../models/User');
+const mongoose = require('mongoose');
 const USER_SAFE_DATA = ['firstName', 'lastName', 'age', 'gender','photoUrl','skills', '_id'];
 
 // Get all the the pending connections request for the loggedIn user
