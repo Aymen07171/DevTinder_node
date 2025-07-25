@@ -40,10 +40,10 @@ app.use('/', userRouter);
 connectDB() 
   .then(() => {
     console.log('MongoDB connected');
-    return app.listen(80);
+    return app.listen(3000);
   })
   .then(() => {
-    console.log('Server is running on port 80');
+    console.log('Server is running on port 3000');
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
