@@ -12,7 +12,7 @@ const userAuth = async (req, res, next) => {
         }
 
         // Use environment variable for JWT secret
-        const JWT_SECRET = process.env.JWT_SECRET;
+        const JWT_SECRET =  'JWT@DAIKI@2025';
         
         // Verify the token
         const decoded = jwt.verify(token, JWT_SECRET);

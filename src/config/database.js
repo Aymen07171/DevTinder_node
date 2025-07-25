@@ -4,7 +4,7 @@ env.config()
 
 // Connect to MongoDB
 const connectDB = async () => {
-    const conn = await mongoose.connect(process.env.DATABASE);
+    const conn = await mongoose.connect('mongodb+srv://elattarayman1:ArVVlzRL3dJ11G8Q@devtinder.fr1hqkf.mongodb.net/devtinder?retryWrites=true&w=majority&appName=devtinder');
  
     try{
 
