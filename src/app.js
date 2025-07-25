@@ -37,15 +37,17 @@ app.use('/', userRouter);
 
 
 
-connectDB() 
+const PORT = process.env.PORT || 3000;
+
+connectDB()
   .then(() => {
     console.log('MongoDB connected');
-    return app.listen(3000);
+    return app.listen(PORT, '0.0.0.0');
   })
   .then(() => {
-    console.log('Server is running on port 3000');
+    console.log(`Server is running on port ${PORT}`);
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err);
-    process.exit(1); // Arrêt propre de l'application en cas d'erreur
-  });
+    process.exit(1);
+  });''
