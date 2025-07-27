@@ -3,6 +3,19 @@ const requestRouter = express.Router();
 const { userAuth } = require('../middleware/auth');
 const ConnectionRequest = require('../models/connectionRequest');
 const User = require('../models/User');
+const sendEmail = require('../utils/sendEmail'); // Import the sendEmail utility
+
+
+
+
+
+// Route to send a connection request
+// This route allows a user to send a connection request to another user
+
+
+
+
+
 
 requestRouter.post('/request/send/:status/:toUserId', userAuth, async (req, res) => {  
     try {
@@ -53,7 +66,18 @@ requestRouter.post('/request/send/:status/:toUserId', userAuth, async (req, res)
         });
 
         const savedRequest = await connectionRequest.save();
+
+        // Send email notification
         
+        const emailResponse = await sendEmail.run(
+            "A new Friend Request from " + fromUser.firstName + ' ' + fromUser.lastName, // Subject
+            "You have received a new connection request from " + fromUser.firstName + ' ' + fromUser.lastName + ". Please log in to your account to review the request.", // Body
+   
+        )
+
+        console.log('Email sent successfully:', emailResponse);
+
+
         return res.status(201).json({
             success: true,
             message: 'Connection request sent successfully',
@@ -69,6 +93,7 @@ requestRouter.post('/request/send/:status/:toUserId', userAuth, async (req, res)
         });
     }
 });
+
 
 requestRouter.post('/request/review/:status/:requestId', userAuth, async (req, res) => {
     try {
