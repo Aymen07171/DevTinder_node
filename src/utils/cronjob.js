@@ -3,31 +3,31 @@ const { subDays, startOfDay, endOfDay } = require('date-fns');
 const sendEmaill = require('../utils/sendEmail');
 const ConnectionRequestModel = require('../models/connectionRequest');
 
-// Schedule to run daily at 6:00 PM (18:00) - Fixed cron expression
-cron.schedule('40 13 * * *', async () => {
+// Schedule to run daily at 6:00 PM (18:00)
+cron.schedule('0 18 * * *', async () => {
     try {
         console.log('Starting daily email summary cron job...');
         
-        // Get today's date range (August 3rd)
-        const today = new Date(); // This will get today's date
-        const todayStart = startOfDay(today);
-        const todayEnd = endOfDay(today);
+        // Get yesterday's date range
+        const yesterday = subDays(new Date(), 1); // Changed from 0 to 1
+        const yesterdayStart = startOfDay(yesterday); // Fixed typo
+        const yesterdayEnd = endOfDay(yesterday); // Fixed typo
         
-        console.log(`Checking for accepted requests from ${todayStart} to ${todayEnd}`);
+        console.log(`Checking for accepted requests from ${yesterdayStart} to ${yesterdayEnd}`);
         
-        // Find all accepted connection requests from today
+        // Find all accepted connection requests from yesterday
         const acceptedRequests = await ConnectionRequestModel.find({
             status: 'accepted',
             createdAt: { // Fixed field name (likely should be createdAt, not CreatedAt)
-                $gte: todayStart,
-                $lt: todayEnd,
+                $gte: yesterdayStart,
+                $lt: yesterdayEnd,
             }
         }).populate('fromUserId toUserId');
         
         console.log(`Found ${acceptedRequests.length} accepted requests`);
         
         if (acceptedRequests.length === 0) {
-            console.log('No accepted requests found for today. No emails to send.');
+            console.log('No accepted requests found for yesterday. No emails to send.');
             return;
         }
         
@@ -44,7 +44,7 @@ cron.schedule('40 13 * * *', async () => {
                 
                 // Create personalized email content
                 const subject = 'Daily Connection Requests Summary';
-                const message = `Good evening! You had ${requestCount} connection request${requestCount > 1 ? 's' : ''} accepted today.`;
+                const message = `Good evening! You had ${requestCount} connection request${requestCount > 1 ? 's' : ''} accepted yesterday.`;
                 
                 // Send email (assuming sendEmaill.run takes recipient, subject, message)
                 const res = await sendEmaill.run(email, subject, message); // Fixed parameter order
@@ -63,3 +63,4 @@ cron.schedule('40 13 * * *', async () => {
     }
 });
 
+console.log('Daily email summary cron job has been scheduled to run at 18:00 every day');
