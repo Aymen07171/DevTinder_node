@@ -75,7 +75,6 @@ requestRouter.post('/request/send/:status/:toUserId', userAuth, async (req, res)
    
         )
 
-        console.log('Email sent successfully:', emailResponse);
 
 
         return res.status(201).json({

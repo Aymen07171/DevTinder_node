@@ -15,6 +15,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 
+require('./utils/cronjob'); // Importation du cronjob
+
+
 
 // Routes
 // Authentication routes
