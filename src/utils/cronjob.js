@@ -9,7 +9,7 @@ cron.schedule('0 18 * * *', async () => {
         console.log('Starting daily email summary cron job...');
         
         // Get yesterday's date range
-        const yesterday = subDays(new Date(), 1); // Changed from 0 to 1
+        const yesterday = subDays(new Date(), 0); // Changed from 0 to 1
         const yesterdayStart = startOfDay(yesterday); // Fixed typo
         const yesterdayEnd = endOfDay(yesterday); // Fixed typo
         
@@ -63,4 +63,3 @@ cron.schedule('0 18 * * *', async () => {
     }
 });
 
-console.log('Daily email summary cron job has been scheduled to run at 18:00 every day');
